@@ -147,3 +147,29 @@
 2026-02-26 20:03:10,216 - INFO - Database restored from backup.
 2026-02-26 20:04:13,972 - ERROR - Error in handle_get_records: no such column: rural_postcode
 2026-02-26 20:04:34,712 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:07:47,784 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:08:16,740 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:08:18,146 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:08:18,709 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:08:18,906 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:10:25,528 - ERROR - App already in use by snorb on Flemo_Office
+2026-02-26 20:10:44,494 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:10:49,806 - INFO - Database backed up to C:\Github\PWHC-Data-Collection-App\backups\womenshealth_backup_20260226_201049.db
+2026-02-26 20:10:49,806 - INFO - Server graceful shutdown complete.
+2026-02-26 20:11:04,123 - INFO - Database initialized successfully.
+2026-02-26 20:11:04,123 - INFO - Server started at http://127.0.0.1:8080
+2026-02-26 20:11:24,789 - INFO - Database backed up to C:\Github\PWHC-Data-Collection-App\backups\womenshealth_backup_20260226_201124.db
+2026-02-26 20:11:24,789 - INFO - Server graceful shutdown complete.
+2026-02-26 20:13:00,621 - INFO - Database initialized successfully.
+2026-02-26 20:13:00,622 - INFO - Server started at http://127.0.0.1:8080
+2026-02-26 20:13:08,647 - INFO - Record 12 deleted.
+2026-02-26 20:13:10,702 - INFO - Record 14 deleted.
+2026-02-26 20:13:13,719 - INFO - Record 11 deleted.
+2026-02-26 20:13:15,992 - INFO - Record 4 deleted.
+2026-02-26 20:13:17,746 - INFO - Record 2 deleted.
+2026-02-26 20:13:19,939 - INFO - Record 1 deleted.
+2026-02-26 20:13:22,039 - INFO - Record 15 deleted.
+2026-02-26 20:13:24,532 - INFO - Record 13 deleted.
+2026-02-26 20:13:26,389 - INFO - Record 10 deleted.
+2026-02-26 20:13:33,844 - INFO - Database backed up to C:\Github\PWHC-Data-Collection-App\backups\womenshealth_backup_20260226_201333.db
+2026-02-26 20:13:33,844 - INFO - Server graceful shutdown complete.

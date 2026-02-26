@@ -331,7 +331,9 @@ class WomensHealthHandler(http.server.BaseHTTPRequestHandler):
         if search:
             search_term = f"%{search}%"
             search_clauses = [
-                "client_id LIKE ?", "staff_member LIKE ?", "client_status LIKE ?", "visit_number LIKE ?", "carer LIKE ?", "financial_hardship LIKE ?", "social_isolation LIKE ?", "rural_postcode LIKE ?", "lgbtiq LIKE ?", "funding_stream LIKE ?", "funding_option LIKE ?", "country LIKE ?",
+                "client_id LIKE ?", "staff_member LIKE ?", "client_status LIKE ?", "visit_number LIKE ?",
+                "age LIKE ?", "contact_mode LIKE ?", "session_date LIKE ?",
+                "carer LIKE ?", "financial_hardship LIKE ?", "social_isolation LIKE ?", "rural_postcode LIKE ?", "lgbtiq LIKE ?", "funding_stream LIKE ?", "funding_option LIKE ?", "country LIKE ?",
                 "language LIKE ?", "ethnicity LIKE ?", "disability LIKE ?",
                 "chronic_illness LIKE ?", "presenting_issues LIKE ?",
                 "service_provided LIKE ?", "service_type LIKE ?",
