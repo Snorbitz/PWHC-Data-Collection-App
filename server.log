@@ -1,0 +1,142 @@
+2026-02-19 14:12:07,281 - INFO - Database initialized successfully.
+2026-02-19 14:12:07,282 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 14:20:22,177 - INFO - Database initialized successfully.
+2026-02-19 14:20:22,178 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 14:26:48,458 - INFO - Database initialized successfully.
+2026-02-19 14:26:48,459 - ERROR - Port 8080 already in use.
+2026-02-19 14:27:13,170 - INFO - Database initialized successfully.
+2026-02-19 14:27:13,171 - ERROR - Port 8080 already in use.
+2026-02-19 14:27:31,888 - INFO - Database initialized successfully.
+2026-02-19 14:27:31,889 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 14:37:05,705 - INFO - Database initialized successfully.
+2026-02-19 14:37:05,707 - ERROR - Port 8080 already in use.
+2026-02-19 14:42:30,781 - INFO - Database initialized successfully.
+2026-02-19 14:42:30,783 - ERROR - Port 8080 already in use.
+2026-02-19 14:46:08,864 - INFO - Database initialized successfully.
+2026-02-19 14:46:08,864 - ERROR - Port 8080 already in use.
+2026-02-19 14:48:58,668 - INFO - Database initialized successfully.
+2026-02-19 14:48:58,669 - ERROR - Port 8080 already in use.
+2026-02-19 14:49:16,306 - INFO - Database initialized successfully.
+2026-02-19 14:49:16,307 - ERROR - Port 8080 already in use.
+2026-02-19 14:53:35,709 - INFO - Database initialized successfully.
+2026-02-19 14:53:35,710 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 14:53:44,057 - INFO - Record 3 deleted.
+2026-02-19 15:00:37,650 - INFO - Database initialized successfully.
+2026-02-19 15:00:37,652 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 15:02:46,008 - INFO - Database initialized successfully.
+2026-02-19 15:02:46,010 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 15:09:58,449 - INFO - Database initialized successfully.
+2026-02-19 15:09:58,450 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 15:12:59,480 - INFO - Database initialized successfully.
+2026-02-19 15:12:59,481 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 15:15:22,976 - INFO - Database initialized successfully.
+2026-02-19 15:15:22,977 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 15:20:12,774 - INFO - Database initialized successfully.
+2026-02-19 15:20:12,774 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 15:31:23,612 - INFO - Record 8 deleted.
+2026-02-19 15:31:25,425 - INFO - Record 7 deleted.
+2026-02-19 15:31:27,112 - INFO - Record 6 deleted.
+2026-02-19 15:31:28,905 - INFO - Record 5 deleted.
+2026-02-19 15:31:39,438 - INFO - Database initialized successfully.
+2026-02-19 15:31:39,439 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 16:37:01,622 - INFO - Database initialized successfully.
+2026-02-19 16:37:01,623 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 18:31:09,139 - INFO - Database initialized successfully.
+2026-02-19 18:31:09,140 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 18:31:36,292 - INFO - Database initialized successfully.
+2026-02-19 18:31:36,292 - INFO - Server started at http://127.0.0.1:8080
+2026-02-19 18:42:26,058 - INFO - Record 9 deleted.
+2026-02-19 18:45:47,239 - INFO - Database initialized successfully.
+2026-02-19 18:45:47,241 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 19:46:02,775 - INFO - Database initialized successfully.
+2026-02-21 19:46:02,776 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 19:47:23,882 - INFO - Database initialized successfully.
+2026-02-21 19:47:23,883 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 19:54:52,230 - INFO - Database initialized successfully.
+2026-02-21 19:54:52,231 - ERROR - Port 8080 already in use.
+2026-02-21 19:55:53,982 - INFO - Database initialized successfully.
+2026-02-21 19:55:53,982 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 19:55:55,531 - ERROR - App already in use by snorb on Flemo_Office
+2026-02-21 19:57:51,562 - INFO - Database initialized successfully.
+2026-02-21 19:57:51,562 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 19:57:57,158 - INFO - Database initialized successfully.
+2026-02-21 19:57:57,159 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:04:29,301 - INFO - Database initialized successfully.
+2026-02-21 20:04:29,303 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:05:27,735 - INFO - Database initialized successfully.
+2026-02-21 20:05:27,736 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:06:40,126 - INFO - Database initialized successfully.
+2026-02-21 20:06:40,127 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:10:10,660 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260221_201010.db
+2026-02-21 20:10:10,660 - INFO - Server graceful shutdown complete.
+2026-02-21 20:10:22,180 - INFO - Database initialized successfully.
+2026-02-21 20:10:22,181 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:10:54,833 - INFO - Database restored from backup.
+2026-02-21 20:16:50,680 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260221_201650.db
+2026-02-21 20:16:50,681 - INFO - Server graceful shutdown complete.
+2026-02-21 20:16:55,906 - INFO - Database initialized successfully.
+2026-02-21 20:16:55,907 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:20:47,666 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260221_202047.db
+2026-02-21 20:20:47,666 - INFO - Server graceful shutdown complete.
+2026-02-21 20:20:55,576 - INFO - Database initialized successfully.
+2026-02-21 20:20:55,577 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:39:31,372 - INFO - Database initialized successfully.
+2026-02-21 20:39:31,373 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 20:40:54,335 - INFO - Database initialized successfully.
+2026-02-21 20:40:54,335 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 21:10:02,494 - INFO - Database initialized successfully.
+2026-02-21 21:10:02,495 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 21:16:39,536 - INFO - Database initialized successfully.
+2026-02-21 21:16:39,537 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 21:20:03,398 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260221_212003.db
+2026-02-21 21:20:03,399 - INFO - Server graceful shutdown complete.
+2026-02-21 21:20:10,306 - INFO - Database initialized successfully.
+2026-02-21 21:20:10,307 - INFO - Server started at http://127.0.0.1:8080
+2026-02-21 21:20:53,491 - INFO - Record 12 deleted.
+2026-02-21 21:20:55,554 - INFO - Record 14 deleted.
+2026-02-21 21:20:57,566 - INFO - Record 10 deleted.
+2026-02-21 21:20:59,292 - INFO - Record 13 deleted.
+2026-02-21 21:21:01,202 - INFO - Record 15 deleted.
+2026-02-21 21:21:02,763 - INFO - Record 1 deleted.
+2026-02-21 21:21:04,413 - INFO - Record 2 deleted.
+2026-02-21 21:21:06,449 - INFO - Record 4 deleted.
+2026-02-22 10:10:49,396 - INFO - Database initialized successfully.
+2026-02-22 10:10:49,398 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 10:28:56,362 - INFO - Database initialized successfully.
+2026-02-22 10:28:56,363 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 10:42:52,682 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260222_104252.db
+2026-02-22 10:42:52,683 - INFO - Server graceful shutdown complete.
+2026-02-22 10:42:58,196 - INFO - Database initialized successfully.
+2026-02-22 10:42:58,197 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 10:43:22,435 - INFO - Database initialized successfully.
+2026-02-22 10:43:22,436 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 20:13:11,218 - INFO - Database initialized successfully.
+2026-02-22 20:13:11,221 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 20:27:55,100 - ERROR - App already in use by snorb on Flemo_Office
+2026-02-22 20:37:44,886 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260222_203744.db
+2026-02-22 20:37:44,887 - INFO - Removed old backup: C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260221_201010.db
+2026-02-22 20:37:44,887 - INFO - Server graceful shutdown complete.
+2026-02-22 20:37:51,096 - INFO - Database initialized successfully.
+2026-02-22 20:37:51,097 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 20:38:10,114 - ERROR - App already in use by snorb on Flemo_Office
+2026-02-22 20:38:50,106 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260222_203850.db
+2026-02-22 20:38:50,107 - INFO - Removed old backup: C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260221_201650.db
+2026-02-22 20:38:50,108 - INFO - Server graceful shutdown complete.
+2026-02-22 20:38:54,486 - INFO - Database initialized successfully.
+2026-02-22 20:38:54,487 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 20:41:04,419 - INFO - Database backed up to C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260222_204104.db
+2026-02-22 20:41:04,420 - INFO - Removed old backup: C:\Users\snorb\OneDrive\Documents\GitHub\PWHC-Data-Collection\womens-health-app\backups\womenshealth_backup_20260221_202047.db
+2026-02-22 20:41:04,420 - INFO - Server graceful shutdown complete.
+2026-02-22 20:41:59,153 - INFO - Database initialized successfully.
+2026-02-22 20:41:59,154 - INFO - Server started at http://127.0.0.1:8080
+2026-02-22 20:48:34,546 - INFO - Record 11 deleted.
+2026-02-22 20:48:36,729 - INFO - Record 17 deleted.
+2026-02-22 20:48:38,775 - INFO - Record 16 deleted.
+2026-02-24 12:16:06,069 - INFO - Database initialized successfully.
+2026-02-24 12:16:06,072 - INFO - Server started at http://127.0.0.1:8080
+2026-02-24 12:16:10,084 - INFO - Database initialized successfully.
+2026-02-24 12:16:10,085 - INFO - Server started at http://127.0.0.1:8080
+2026-02-26 10:59:43,774 - INFO - Database initialized successfully.
+2026-02-26 10:59:43,778 - INFO - Server started at http://127.0.0.1:8080
+2026-02-26 19:52:56,758 - INFO - Database initialized successfully.
+2026-02-26 19:52:56,763 - INFO - Server started at http://127.0.0.1:8080

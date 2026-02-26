@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women's Health Database &#8212; Record Viewer</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            background: #f4f6f9;
+            color: #2c3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Header ──────────────────────────────────────────────── */
+        header {
+            background: linear-gradient(135deg, #7b2d8b 0%, #c0396c 100%);
+            color: #fff;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+            flex-shrink: 0;
+        }
+
+        header .logo {
+            width: 46px;
+            height: 46px;
+            background: rgba(255, 255, 255, .2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        header p {
+            font-size: 12px;
+            opacity: .85;
+            margin-top: 2px;
+        }
+
+        /* ── App Layout ──────────────────── */
+        .app-layout {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* ── Left Navigation Sidebar ─────────────────────────────── */
+        .side-nav {
+            width: 200px;
+            flex-shrink: 0;
+            background: #fff;
+            border-right: 1px solid #e8e8f0;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, .06);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0 32px;
+            position: sticky;
+            top: 0;
+            height: calc(100vh - 84px);
+            overflow-y: auto;
+        }
+
+        .side-nav .nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+            padding: 0 20px 10px;
+        }
+
+        .side-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            border-left: 3px solid transparent;
+            transition: background .15s, color .15s, border-color .15s;
+        }
+
+        .side-nav a:hover {
+            background: #f9f4fc;
+            color: #7b2d8b;
+        }
+
+        .side-nav a.active {
+            background: #f3e8fb;
+            color: #7b2d8b;
+            border-left-color: #7b2d8b;
+        }
+
+        .side-nav a .nav-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* ── Main Content ────────────────────────────────────────── */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            overflow-y: auto;
+        }
+
+        .container {
+            padding: 24px 24px 60px;
+        }
+
+        /* ── Filter Card ─────────────────────────────────────────── */
+        .filter-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+        }
+
+        .filter-card h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: #7b2d8b;
+            font-weight: 700;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ede;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 14px 18px;
+        }
+
+        .filter-grid .full-row {
+            grid-column: 1 / -1;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 8px 10px;
+            background: #fcfaff;
+            border: 1px solid #f0f0f8;
+            border-left: 3px solid #f0f0f8;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .field-group:focus-within {
+            background: #fff;
+            border-color: #d8c0e8;
+            border-left-color: #7b2d8b;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #6a2478;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #d0d0d8;
+            border-radius: 6px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            color: #2c3e50;
+            background: #fff;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #7b2d8b;
+            box-shadow: 0 0 0 3px rgba(123, 45, 139, .1);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid #f0e8f8;
+        }
+
+        /* ── Buttons ─────────────────────────────────────────────── */
+        .btn {
+            padding: 9px 20px;
+            border: none;
+            border-radius: 6px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .15s, transform .1s;
+        }
+
+        .btn:active {
+            transform: scale(.98);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7b2d8b, #c0396c);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #6a2279, #a8305e);
+        }
+
+        .btn-secondary {
+            background: #f0e6f6;
+            color: #7b2d8b;
+        }
+
+        .btn-secondary:hover {
+            background: #e2d0f0;
+        }
+
+        .btn-export {
+            background: #2e7d32;
+            color: #fff;
+            margin-left: auto;
+        }
+
+        .btn-export:hover {
+            background: #256127;
+        }
+
+        /* ── Delete button ──────────────────────────────────────── */
+        .btn-delete {
+            background: none;
+            border: 1px solid #e53935;
+            color: #e53935;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .15s, color .15s;
+            white-space: nowrap;
+        }
+
+        .btn-delete:hover {
+            background: #e53935;
+            color: #fff;
+        }
+
+        /* ── Confirmation Modal ───────────────────────────────── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .25);
+            padding: 32px 36px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal .modal-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .modal h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .modal .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-danger {
+            background: #e53935;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-danger:hover {
+            background: #c62828;
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #444;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        /* ── Results summary ─────────────────────────────────────── */
+        .results-meta {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ── Table ───────────────────────────────────────────────── */
+        .table-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+            overflow: hidden;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #faf8fc;
+            text-align: left;
+            padding: 12px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: #666;
+            border-bottom: 2px solid #eee;
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 12px;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+
+        tr:hover td {
+            background: #fdf8ff;
+        }
+
+        /* ── Pagination ───────────────────────────────────────────── */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            background: #fff;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .page-info {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* ── Tooltip on hover for truncated cells ─────────────────── */
+        td[title]:hover {
+            cursor: help;
+        }
+
+        @media (max-width: 900px) {
+            .side-nav {
+                width: 160px;
+            }
+
+            .filter-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">&#9792;</div>
+        <div>
+            <h1>Women&#39;s Health Database</h1>
+            <p>Record Viewer &amp; Export</p>
+        </div>
+    </header>
+
+    <div class="app-layout">
+
+        <!-- LEFT NAVIGATION SIDEBAR -->
+        <nav class="side-nav" aria-label="Application navigation">
+            <div class="nav-label">Navigation</div>
+            <a href="/">
+                <span class="nav-icon">&#9998;</span> Data Entry
+            </a>
+            <a href="/viewer" class="active" aria-current="page">
+                <span class="nav-icon">&#128203;</span> Record Viewer
+            </a>
+            <div style="flex-grow: 1;"></div>
+            <a href="#" id="nav-btn-shutdown" style="color: #c62828;">
+                <span class="nav-icon">&#9209;</span> Exit
+            </a>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container">
+
+                <!-- FILTER CARD -->
+                <div class="filter-card">
+                    <h2>Filter Records</h2>
+                    <div class="filter-grid">
+
+                        <!-- Date range -->
+                        <div class="field-group">
+                            <label for="date_from">Date From</label>
+                            <input type="date" id="date_from">
+                        </div>
+                        <div class="field-group">
+                            <label for="date_to">Date To</label>
+                            <input type="date" id="date_to">
+                        </div>
+
+                        <!-- Client ID -->
+                        <div class="field-group">
+                            <label for="f_client_id">Client ID</label>
+                            <input type="text" id="f_client_id" placeholder="e.g. C-00123">
+                        </div>
+
+                        <!-- Staff Member -->
+                        <div class="field-group">
+                            <label for="f_staff_member">Staff Member</label>
+                            <input type="text" id="f_staff_member" placeholder="e.g. Jane Doe">
+                        </div>
+
+                        <!-- Client Status -->
+                        <div class="field-group">
+                            <label for="f_client_status">Client Status</label>
+                            <select id="f_client_status">
+                                <option value="">All Statuses</option>
+                                <option value="New">New</option>
+                                <option value="Returning">Returning</option>
+                            </select>
+                        </div>
+
+                        <!-- Visit Number -->
+                        <div class="field-group">
+                            <label for="f_visit_number">Visit Number</label>
+                            <input type="text" id="f_visit_number" placeholder="e.g. 5">
+                        </div>
+
+                        <!-- Age -->
+                        <div class="field-group">
+                            <label for="age">Age Range</label>
+                            <select id="age">
+                                <option value="">All Ages</option>
+                                <option value="0-15">0-15</option>
+                                <option value="16-19">16-19</option>
+                                <option value="20-24">20-24</option>
+                                <option value="25-29">25-29</option>
+                                <option value="30-34">30-34</option>
+                                <option value="35-39">35-39</option>
+                                <option value="40-44">40-44</option>
+                                <option value="45-49">45-49</option>
+                                <option value="50-54">50-54</option>
+                                <option value="55-59">55-59</option>
+                                <option value="60-64">60-64</option>
+                                <option value="65-69">65-69</option>
+                                <option value="70-74">70-74</option>
+                                <option value="75-79">75-79</option>
+                                <option value="80-84">80-84</option>
+                                <option value="85+">85+</option>
+                                <option value="&lt;Not Recorded&gt;">&lt;Not Recorded&gt;</option>
+                            </select>
+                        </div>
+
+                        <!-- Carer -->
+                        <div class="field-group">
+                            <label for="f_carer">Carer?</label>
+                            <select id="f_carer">
+                                <option value="">All</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <!-- Financial Hardship -->
+                        <div class="field-group">
+                            <label for="f_financial_hardship">Financial Hardship?</label>
+                            <select id="f_financial_hardship">
+                                <option value="">All</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <!-- Social Isolation -->
+                        <div class="field-group">
+                            <label for="f_social_isolation">Social Isolation?</label>
+                            <select id="f_social_isolation">
+                                <option value="">All</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <!-- Rural Postcode -->
+                        <div class="field-group">
+                            <label for="f_rural_postcode">Rural Postcodes?</label>
+                            <select id="f_rural_postcode">
+                                <option value="">All</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <!-- LGBTIQ+ -->
+                        <div class="field-group">
+                            <label for="f_lgbtiq">LGBTIQ+?</label>
+                            <select id="f_lgbtiq">
+                                <option value="">All</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <!-- Funding Stream -->
+                        <div class="field-group">
+                            <label for="f_funding_stream">Funding Stream</label>
+                            <select id="f_funding_stream">
+                                <option value="">All Streams</option>
+                                <option value="Health & Wellbeing">Health & Wellbeing</option>
+                                <option value="Safety & Empowerment">Safety & Empowerment</option>
+                            </select>
+                        </div>
+
+                        <!-- Funding Option -->
+                        <div class="field-group">
+                            <label for="f_funding_option">Funding Option</label>
+                            <select id="f_funding_option">
+                                <option value="">All Options</option>
+                                <option value="SHLV">SHLV</option>
+                                <option value="DVPass">DVPass</option>
+                                <option value="Frontline Worker">Frontline Worker</option>
+                                <option value="SHLV CW">SHLV CW</option>
+                            </select>
+                        </div>
+
+                        <!-- Contact Mode -->
+                        <div class="field-group">
+                            <label for="contact_mode">Contact Mode</label>
+                            <select id="contact_mode">
+                                <option value="">All Modes</option>
+                                <option>Attend Centre Appointment</option>
+                                <option>Colo - face to face centre</option>
+                                <option>Colo - face to face outreach</option>
+                                <option>Internet/E-mail</option>
+                                <option>Letter</option>
+                                <option>Outreach</option>
+                                <option>Phone</option>
+                                <option>Telehealth</option>
+                                <option>Telephone</option>
+                                <option>Video call (e.g. Skype, Zoom)</option>
+                                <option>SMS</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Country -->
+                        <div class="field-group">
+                            <label for="f_country">Country</label>
+                            <input type="text" id="f_country" placeholder="e.g. Australia">
+                        </div>
+
+                        <!-- Language -->
+                        <div class="field-group">
+                            <label for="f_language">Language</label>
+                            <input type="text" id="f_language" placeholder="e.g. English">
+                        </div>
+
+                        <!-- Ethnicity -->
+                        <div class="field-group">
+                            <label for="f_ethnicity">Ethnicity</label>
+                            <input type="text" id="f_ethnicity" placeholder="e.g. North-West European">
+                        </div>
+
+                        <!-- Visa Type -->
+                        <div class="field-group">
+                            <label for="f_visa_type">Visa Type</label>
+                            <input type="text" id="f_visa_type" placeholder="e.g. Permanent">
+                        </div>
+
+                        <!-- Income Source -->
+                        <div class="field-group">
+                            <label for="f_income_source">Income Source</label>
+                            <input type="text" id="f_income_source" placeholder="e.g. Wage/Salary">
+                        </div>
+
+                        <!-- Disability -->
+                        <div class="field-group">
+                            <label for="f_disability">Living with Disability (contains)</label>
+                            <input type="text" id="f_disability" placeholder="e.g. Physical">
+                        </div>
+
+                        <!-- Chronic Illness -->
+                        <div class="field-group">
+                            <label for="f_chronic_illness">Chronic Illness (contains)</label>
+                            <input type="text" id="f_chronic_illness" placeholder="e.g. Mental health">
+                        </div>
+
+                        <!-- Presenting Issues -->
+                        <div class="field-group">
+                            <label for="f_presenting_issues">Presenting Issues (contains)</label>
+                            <input type="text" id="f_presenting_issues" placeholder="e.g. Anxiety">
+                        </div>
+
+                        <!-- Service Provided -->
+                        <div class="field-group">
+                            <label for="f_service_provided">Service Provided (contains)</label>
+                            <input type="text" id="f_service_provided" placeholder="e.g. Mental Health">
+                        </div>
+
+                        <!-- Service Type -->
+                        <div class="field-group">
+                            <label for="f_service_type">Service Type (contains)</label>
+                            <input type="text" id="f_service_type" placeholder="e.g. Individual">
+                        </div>
+
+                        <!-- Practitioner -->
+                        <div class="field-group">
+                            <label for="f_practitioner">Practitioner (contains)</label>
+                            <input type="text" id="f_practitioner" placeholder="e.g. Psychologist">
+                        </div>
+
+                        <!-- Group Type -->
+                        <div class="field-group">
+                            <label for="f_group_type">Group Type (contains)</label>
+                            <input type="text" id="f_group_type" placeholder="e.g. Community">
+                        </div>
+
+                        <!-- Evaluation Tools -->
+                        <div class="field-group">
+                            <label for="f_evaluation_tools">Evaluation Tools (contains)</label>
+                            <input type="text" id="f_evaluation_tools" placeholder="e.g. K10">
+                        </div>
+
+                        <!-- Free-text Search -->
+                        <div class="field-group full-row">
+                            <label for="search">&#128269; Free-text Search (searches all fields)</label>
+                            <input type="text" id="search" placeholder="Search across all fields...">
+                        </div>
+
+                    </div><!-- /.filter-grid -->
+
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" id="apply-filters">&#128270; Apply Filters</button>
+                        <button class="btn btn-secondary" id="clear-filters">&#10006; Clear</button>
+                        <button class="btn btn-export" id="export-csv">&#8659; Export CSV</button>
+                        <button class="btn btn-secondary" id="restore-db" style="margin-left:10px;">&#128194; Restore
+                            DB</button>
+                        <input type="file" id="db-file-input" accept=".db" style="display:none;">
+                    </div>
+                </div><!-- /.filter-card -->
+
+                <!-- RESULTS META -->
+                <div class="results-meta">
+                    <span id="page-info">Loading...</span>
+                </div>
+
+                <!-- TABLE -->
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table id="records-table">
+                            <thead>
+                                <tr>
+                                    <th style="min-width:50px">ID</th>
+                                    <th style="min-width:100px">Session Date</th>
+                                    <th style="min-width:100px">Client ID</th>
+                                    <th style="min-width:140px">Staff Member</th>
+                                    <th style="min-width:90px">Status</th>
+                                    <th style="min-width:80px">Visit #</th>
+                                    <th style="min-width:75px">Age</th>
+                                    <th style="min-width:70px">Carer</th>
+                                    <th style="min-width:100px">Fin. Hardship</th>
+                                    <th style="min-width:110px">Social Isolation</th>
+                                    <th style="min-width:110px">Rural Postcode</th>
+                                    <th style="min-width:110px">LGBTIQ+</th>
+                                    <th style="min-width:130px">Funding Stream</th>
+                                    <th style="min-width:130px">Funding Option</th>
+                                    <th style="min-width:130px">Contact Mode</th>
+                                    <th style="min-width:130px">Country</th>
+                                    <th style="min-width:120px">Language</th>
+                                    <th style="min-width:130px">Ethnicity</th>
+                                    <th style="min-width:120px">Visa Type</th>
+                                    <th style="min-width:120px">Income Source</th>
+                                    <th style="min-width:160px">Living with Disability</th>
+                                    <th style="min-width:160px">Chronic Illness</th>
+                                    <th style="min-width:200px">Presenting Issues</th>
+                                    <th style="min-width:180px">Service Provided</th>
+                                    <th style="min-width:160px">Service Type</th>
+                                    <th style="min-width:160px">Practitioner</th>
+                                    <th style="min-width:130px">Group Type</th>
+                                    <th style="min-width:160px">Evaluation Tools</th>
+                                    <th style="min-width:140px">Submitted At</th>
+                                    <th style="min-width:80px;text-align:center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data loaded by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <div class="page-info" id="pagination-info">Showing 0 of 0 records</div>
+                        <div class="nav-btns">
+                            <button class="btn btn-secondary" id="prev-btn">&#8592; Previous</button>
+                            <button class="btn btn-secondary" id="next-btn">Next &#8594;</button>
+                        </div>
+                    </div>
+                </div><!-- /.table-container -->
+
+            </div><!-- /.container -->
+        </div><!-- /.main-content -->
+    </div><!-- /.app-layout -->
+
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="delete-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal">
+            <div class="modal-icon">&#9888;&#65039;</div>
+            <h3 id="modal-title">Delete Record?</h3>
+            <p id="modal-desc">This will permanently delete record <strong id="modal-record-id"></strong>.<br>This
+                action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="modal-cancel">Cancel</button>
+                <button class="btn-danger" id="modal-confirm">&#128465; Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const perPage = 50;
+
+        // Build filter params from ALL filter fields
+        function getFilters() {
+            return {
+                date_from: val('date_from'),
+                date_to: val('date_to'),
+                client_status: val('f_client_status'),
+                visit_number: val('f_visit_number'),
+                age: val('age'),
+                carer: val('f_carer'),
+                financial_hardship: val('f_financial_hardship'),
+                social_isolation: val('f_social_isolation'),
+                rural_postcode: val('f_rural_postcode'),
+                lgbtiq: val('f_lgbtiq'),
+                funding_stream: val('f_funding_stream'),
+                funding_option: val('f_funding_option'),
+                contact_mode: val('contact_mode'),
+                client_id: val('f_client_id'),
+                staff_member: val('f_staff_member'),
+                country: val('f_country'),
+                language: val('f_language'),
+                ethnicity: val('f_ethnicity'),
+                visa_type: val('f_visa_type'),
+                income_source: val('f_income_source'),
+                disability: val('f_disability'),
+                chronic_illness: val('f_chronic_illness'),
+                presenting_issues: val('f_presenting_issues'),
+                service_provided: val('f_service_provided'),
+                service_type: val('f_service_type'),
+                practitioner: val('f_practitioner'),
+                group_type: val('f_group_type'),
+                evaluation_tools: val('f_evaluation_tools'),
+                search: val('search'),
+                page: currentPage,
+                per_page: perPage
+            };
+        }
+
+        function val(id) {
+            const el = document.getElementById(id);
+            return el ? el.value.trim() : '';
+        }
+
+        function loadRecords() {
+            const filters = getFilters();
+            // Remove empty params
+            const params = {};
+            Object.keys(filters).forEach(k => { if (filters[k] !== '' && filters[k] !== null) params[k] = filters[k]; });
+            const query = new URLSearchParams(params).toString();
+
+            fetch('/api/records?' + query)
+                .then(r => r.json())
+                .then(data => {
+                    renderTable(data.records);
+                    updatePagination(data.total);
+                })
+                .catch(err => {
+                    document.querySelector('#records-table tbody').innerHTML =
+                        '<tr><td colspan="20" style="text-align:center;padding:30px;color:#c62828">Error loading records. Ensure server is running.</td></tr>';
+                    console.error('Error loading records:', err);
+                });
+        }
+
+        function esc(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function truncate(str, len) {
+            if (!str) return '-';
+            const s = String(str);
+            if (s.length <= len) return esc(s);
+            return esc(s.substring(0, len)) + '&hellip;';
+        }
+
+        function renderTable(records) {
+            const tbody = document.querySelector('#records-table tbody');
+            tbody.innerHTML = '';
+
+            if (!records || records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="20" style="text-align:center;padding:40px;color:#999">No records found matching the current filters.</td></tr>';
+                return;
+            }
+
+            records.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+        <td>${esc(r.id)}</td>
+        <td>${esc(r.session_date)}</td>
+        <td>${esc(r.client_id) || '-'}</td>
+        <td>${esc(r.staff_member) || '-'}</td>
+        <td>${esc(r.client_status) || '-'}</td>
+        <td>${esc(r.visit_number) || '-'}</td>
+        <td>${esc(r.age) || '-'}</td>
+        <td>${esc(r.carer) || 'No'}</td>
+        <td>${esc(r.financial_hardship) || 'No'}</td>
+        <td>${esc(r.social_isolation) || 'No'}</td>
+        <td>${esc(r.rural_postcode) || 'No'}</td>
+        <td>${esc(r.lgbtiq) || 'No'}</td>
+        <td>${esc(r.funding_stream) || '-'}</td>
+        <td>${esc(r.funding_option) || '-'}</td>
+        <td title="${esc(r.contact_mode)}">${truncate(r.contact_mode, 25)}</td>
+        <td title="${esc(r.country)}">${truncate(r.country, 25)}</td>
+        <td title="${esc(r.language)}">${truncate(r.language, 22)}</td>
+        <td title="${esc(r.ethnicity)}">${truncate(r.ethnicity, 22)}</td>
+        <td title="${esc(r.visa_type)}">${truncate(r.visa_type, 20)}</td>
+        <td title="${esc(r.income_source)}">${truncate(r.income_source, 18)}</td>
+        <td title="${esc(r.disability)}">${truncate(r.disability, 30)}</td>
+        <td title="${esc(r.chronic_illness)}">${truncate(r.chronic_illness, 30)}</td>
+        <td title="${esc(r.presenting_issues)}">${truncate(r.presenting_issues, 40)}</td>
+        <td title="${esc(r.service_provided)}">${truncate(r.service_provided, 35)}</td>
+        <td title="${esc(r.service_type)}">${truncate(r.service_type, 30)}</td>
+        <td title="${esc(r.practitioner)}">${truncate(r.practitioner, 30)}</td>
+        <td title="${esc(r.group_type)}">${truncate(r.group_type, 22)}</td>
+        <td title="${esc(r.evaluation_tools)}">${truncate(r.evaluation_tools, 28)}</td>
+        <td style="font-size:11px;color:#888">${esc(r.submitted_at)}</td>
+        <td style="text-align:center">
+          <button class="btn-delete" data-id="${r.id}" data-date="${esc(r.session_date)}" data-client="${esc(r.client_id) || ''}">Delete</button>
+        </td>
+      `;
+                tbody.appendChild(tr);
+            });
+
+            // Wire up delete buttons after rows are rendered
+            tbody.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', () => openDeleteModal(
+                    btn.dataset.id,
+                    btn.dataset.date,
+                    btn.dataset.client
+                ));
+            });
+        }
+
+        function updatePagination(total) {
+            const totalPages = Math.ceil(total / perPage) || 1;
+            const from = total === 0 ? 0 : (currentPage - 1) * perPage + 1;
+            const to = Math.min(currentPage * perPage, total);
+            document.getElementById('page-info').textContent =
+                `Showing ${from}–${to} of ${total} record${total !== 1 ? 's' : ''} (page ${currentPage} of ${totalPages})`;
+            document.getElementById('pagination-info').textContent =
+                `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prev-btn').disabled = currentPage <= 1;
+            document.getElementById('next-btn').disabled = currentPage >= totalPages;
+        }
+
+        document.getElementById('apply-filters').addEventListener('click', () => {
+            currentPage = 1;
+            loadRecords();
+        });
+
+        document.getElementById('clear-filters').addEventListener('click', () => {
+            ['date_from', 'date_to', 'f_client_id', 'f_staff_member', 'f_client_status', 'f_visit_number', 'age', 'f_carer', 'f_financial_hardship', 'f_social_isolation', 'f_rural_postcode', 'f_lgbtiq', 'f_funding_stream', 'f_funding_option', 'f_country', 'f_language', 'f_ethnicity',
+                'f_visa_type', 'f_income_source', 'f_disability', 'f_chronic_illness', 'f_presenting_issues',
+                'f_service_provided', 'f_service_type', 'f_practitioner', 'f_group_type', 'f_evaluation_tools', 'search']
+                .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.getElementById('age').value = '';
+            document.getElementById('contact_mode').value = '';
+            currentPage = 1;
+            loadRecords();
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 1) { currentPage--; loadRecords(); }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            currentPage++;
+            loadRecords();
+        });
+
+        document.getElementById('export-csv').addEventListener('click', () => {
+            const filters = getFilters();
+            delete filters.page;
+            delete filters.per_page;
+            // Remove empty
+            const params = {};
+            Object.keys(filters).forEach(k => { if (filters[k] !== '') params[k] = filters[k]; });
+            window.location.href = '/api/export?' + new URLSearchParams(params).toString();
+        });
+
+        // ── Restore DB logic ─────────────────────────────────────────
+        const restoreBtn = document.getElementById('restore-db');
+        const dbFileInput = document.getElementById('db-file-input');
+
+        restoreBtn.addEventListener('click', () => {
+            dbFileInput.click();
+        });
+
+        dbFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!confirm('Are you sure you want to restore this database backup? This will overwrite all current data and cannot be undone.')) {
+                dbFileInput.value = ''; // Reset input
+                return;
+            }
+
+            restoreBtn.disabled = true;
+            restoreBtn.innerHTML = '&#8987; Restoring...';
+
+            fetch('/api/restore', {
+                method: 'POST',
+                body: file
+            })
+                .then(r => r.json().catch(() => ({ status: 'error', message: 'Invalid response from server' })))
+                .then(data => {
+                    if (data.status === 'ok') {
+                        alert('Database restored successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Error restoring database: ' + (data.message || 'Unknown error.'));
+                    }
+                })
+                .catch(err => {
+                    console.error('Restore error:', err);
+                    alert('Network error during restore.');
+                })
+                .finally(() => {
+                    restoreBtn.disabled = false;
+                    restoreBtn.innerHTML = '&#128194; Restore DB';
+                    dbFileInput.value = ''; // Reset so they can pick again
+                });
+        });
+
+        // Allow Enter key in filter inputs to trigger Apply
+        document.querySelectorAll('.filter-card input, .filter-card select').forEach(el => {
+            el.addEventListener('keydown', e => {
+                if (e.key === 'Enter') { currentPage = 1; loadRecords(); }
+            });
+        });
+
+        // ── Delete modal logic ───────────────────────────────────────
+        let pendingDeleteId = null;
+        const modal = document.getElementById('delete-modal');
+
+        function openDeleteModal(id, date, clientId) {
+            pendingDeleteId = id;
+            document.getElementById('modal-record-id').textContent =
+                `#${id}` + (date ? ` (${date}` + (clientId ? `, ${clientId}` : '') + ')' : '');
+            modal.classList.add('open');
+            document.getElementById('modal-confirm').focus();
+        }
+
+        function closeDeleteModal() {
+            modal.classList.remove('open');
+            pendingDeleteId = null;
+        }
+
+        document.getElementById('modal-cancel').addEventListener('click', closeDeleteModal);
+
+        // Close on overlay click (outside the modal box)
+        modal.addEventListener('click', e => { if (e.target === modal) closeDeleteModal(); });
+
+        // Close on Escape key
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDeleteModal(); });
+
+        document.getElementById('modal-confirm').addEventListener('click', () => {
+            if (!pendingDeleteId) return;
+            const id = pendingDeleteId;
+            closeDeleteModal();
+
+            fetch(`/api/record/${id}`, { method: 'DELETE' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'ok') {
+                        loadRecords(); // refresh table
+                    } else {
+                        alert(`Failed to delete record: ${data.message || 'Unknown error'}`);
+                    }
+                })
+                .catch(err => {
+                    console.error('Delete error:', err);
+                    alert('Network error — could not delete record.');
+                });
+        });
+
+        // Initial load
+        loadRecords();
+
+        // Shutdown
+        document.getElementById('nav-btn-shutdown').addEventListener('click', function (e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to shut down the server? You will need to run the launcher again to restart it.')) {
+                fetch('/api/shutdown')
+                    .catch(e => { })
+                    .finally(() => {
+                        document.body.innerHTML = '<h2 style="padding: 40px; text-align: center; color: #555;">Server has been shut down. You may now close this tab.</h2>';
+                    });
+            }
+        });
+    </script>
+
+</body>
+
+</html>
