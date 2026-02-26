@@ -145,3 +145,5 @@
 2026-02-26 20:02:40,864 - INFO - Database initialized successfully.
 2026-02-26 20:02:40,865 - INFO - Server started at http://127.0.0.1:8080
 2026-02-26 20:03:10,216 - INFO - Database restored from backup.
+2026-02-26 20:04:13,972 - ERROR - Error in handle_get_records: no such column: rural_postcode
+2026-02-26 20:04:34,712 - ERROR - Error in handle_get_records: no such column: rural_postcode
