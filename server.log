@@ -173,3 +173,5 @@
 2026-02-26 20:13:26,389 - INFO - Record 10 deleted.
 2026-02-26 20:13:33,844 - INFO - Database backed up to C:\Github\PWHC-Data-Collection-App\backups\womenshealth_backup_20260226_201333.db
 2026-02-26 20:13:33,844 - INFO - Server graceful shutdown complete.
+2026-02-26 20:13:49,797 - INFO - Database initialized successfully.
+2026-02-26 20:13:49,799 - INFO - Server started at http://127.0.0.1:8080
