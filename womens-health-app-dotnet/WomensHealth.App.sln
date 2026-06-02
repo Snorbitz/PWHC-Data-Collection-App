@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WomensHealth.App", "src\WomensHealth.App\WomensHealth.App.csproj", "{3F8061CC-75BA-4562-BC22-CA47C1042782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WomensHealth.App.Tests", "tests\WomensHealth.App.Tests\WomensHealth.App.Tests.csproj", "{7F3EF2F1-E1A2-4D1B-A8EB-A8A5D23FC1CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F8061CC-75BA-4562-BC22-CA47C1042782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F8061CC-75BA-4562-BC22-CA47C1042782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F8061CC-75BA-4562-BC22-CA47C1042782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F8061CC-75BA-4562-BC22-CA47C1042782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F3EF2F1-E1A2-4D1B-A8EB-A8A5D23FC1CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F3EF2F1-E1A2-4D1B-A8EB-A8A5D23FC1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F3EF2F1-E1A2-4D1B-A8EB-A8A5D23FC1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F3EF2F1-E1A2-4D1B-A8EB-A8A5D23FC1CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

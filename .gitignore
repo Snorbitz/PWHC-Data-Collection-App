@@ -1,0 +1,9 @@
+bin/
+obj/
+*.user
+
+womens-health-app-dotnet/src/WomensHealth.App/womenshealth.db
+womens-health-app-dotnet/src/WomensHealth.App/womenshealth.db-shm
+womens-health-app-dotnet/src/WomensHealth.App/womenshealth.db-wal
+womens-health-app-dotnet/src/WomensHealth.App/server.info
+womens-health-app-dotnet/src/WomensHealth.App/backups/
