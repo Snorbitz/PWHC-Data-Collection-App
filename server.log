@@ -175,3 +175,5 @@
 2026-02-26 20:13:33,844 - INFO - Server graceful shutdown complete.
 2026-02-26 20:13:49,797 - INFO - Database initialized successfully.
 2026-02-26 20:13:49,799 - INFO - Server started at http://127.0.0.1:8080
+2026-06-02 18:27:05,065 - INFO - Database initialized successfully.
+2026-06-02 18:27:05,066 - INFO - Server started at http://127.0.0.1:8080
