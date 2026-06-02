@@ -1,11 +1,9 @@
 @echo off
 SETLOCAL
-TITLE Stop Women's Health App
+TITLE Stop Women's Health App (.NET)
 
-:: Try graceful shutdown first
 powershell.exe -NoProfile -Command "try { Invoke-WebRequest http://127.0.0.1:8080/api/shutdown -UseBasicParsing -TimeoutSec 2 -ErrorAction Ignore } catch {}" >nul 2>&1
 
-:: Give it a moment to back up and shutdown
 timeout /t 2 /nobreak >nul
 
 set STOPPED=0

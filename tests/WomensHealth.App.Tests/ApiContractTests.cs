@@ -87,7 +87,7 @@ public sealed class ApiContractTests : IClassFixture<TestWebApplicationFactory>
         Assert.Equal("text/csv; charset=utf-8", response.Content.Headers.ContentType!.ToString());
         Assert.StartsWith("attachment; filename=womenshealth_export_", response.Content.Headers.ContentDisposition!.ToString());
         var bytes = await response.Content.ReadAsByteArrayAsync();
-        Assert.Equal([0xEF, 0xBB, 0xBF], bytes.Take(3).ToArray());
+        Assert.Equal(new byte[] { 0xEF, 0xBB, 0xBF }, bytes.Take(3).ToArray());
         var text = Encoding.UTF8.GetString(bytes);
         Assert.Contains("\"CSV, Client\"", text);
     }
@@ -95,7 +95,7 @@ public sealed class ApiContractTests : IClassFixture<TestWebApplicationFactory>
     [Fact]
     public async Task RestoreValidatesRawSqliteBytes()
     {
-        var empty = await _client.PostAsync("/api/restore", new ByteArrayContent([]));
+        var empty = await _client.PostAsync("/api/restore", new ByteArrayContent(Array.Empty<byte>()));
         Assert.Equal(HttpStatusCode.BadRequest, empty.StatusCode);
 
         var invalid = await _client.PostAsync("/api/restore", new ByteArrayContent(Encoding.UTF8.GetBytes("not sqlite")));

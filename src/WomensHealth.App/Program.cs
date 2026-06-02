@@ -4,6 +4,7 @@ using WomensHealth.App.Models;
 using WomensHealth.App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://127.0.0.1:8080");
 
 builder.Services.AddSingleton<AppPaths>();
 builder.Services.AddSingleton<DatabaseInitializer>();
@@ -19,8 +20,7 @@ var appLock = app.Services.GetRequiredService<AppLockService>();
 if (!app.Environment.IsEnvironment("Testing") && !appLock.TryAcquire())
 {
     var currentUser = appLock.ReadCurrentOwner();
-    Console.Error.WriteLine($"""
-
+    Console.Error.WriteLine($@"
     ======================================================
     ERROR: The application is already in use by:
     [{currentUser}]
@@ -28,7 +28,7 @@ if (!app.Environment.IsEnvironment("Testing") && !appLock.TryAcquire())
     Please ask them to close the application
     before you can start it.
     ======================================================
-    """);
+");
     return;
 }
 
@@ -141,7 +141,7 @@ app.MapPost("/api/restore", async (HttpContext context, AppPaths paths, Database
         return Results.BadRequest(new { status = "error", message = "No file uploaded" });
     }
 
-    var sqliteHeader = "SQLite format 3\0"u8.ToArray();
+    var sqliteHeader = System.Text.Encoding.UTF8.GetBytes("SQLite format 3\0");
     if (!uploaded.AsSpan().StartsWith(sqliteHeader))
     {
         return Results.BadRequest(new { status = "error", message = "Invalid database file format" });
@@ -158,6 +158,6 @@ app.MapGet("/api/shutdown", (ShutdownService shutdown) =>
     return Results.Ok(new { status = "ok", message = "Server shutting down..." });
 });
 
-app.Run("http://127.0.0.1:8080");
+app.Run();
 
 public partial class Program { }

@@ -8,6 +8,7 @@ public sealed class AppLockService : IDisposable
     private readonly AppPaths _paths;
     private Mutex? _mutex;
     private bool _ownsMutex;
+    private bool _disposed;
 
     public AppLockService(AppPaths paths)
     {
@@ -52,11 +53,36 @@ public sealed class AppLockService : IDisposable
 
     public void Dispose()
     {
-        if (_ownsMutex)
+        if (_disposed) return;
+        _disposed = true;
+
+        if (_ownsMutex && _mutex != null)
         {
-            _mutex?.ReleaseMutex();
+            try
+            {
+                _mutex.ReleaseMutex();
+            }
+            catch (ApplicationException)
+            {
+                // Mutexes are thread-bound. If Dispose is called from a different thread
+                // (e.g. during host shutdown), ReleaseMutex will throw. The OS will
+                // automatically release the Mutex when the process terminates.
+            }
+            catch (ObjectDisposedException)
+            {
+                // SafeHandle already closed.
+            }
+            _ownsMutex = false;
         }
 
-        _mutex?.Dispose();
+        try
+        {
+            _mutex?.Dispose();
+        }
+        catch (ObjectDisposedException)
+        {
+            // Already disposed.
+        }
+        _mutex = null;
     }
 }

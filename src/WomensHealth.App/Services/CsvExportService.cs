@@ -19,7 +19,10 @@ public sealed class CsvExportService
 
         var preamble = Encoding.UTF8.GetPreamble();
         var content = Encoding.UTF8.GetBytes(builder.ToString());
-        return [.. preamble, .. content];
+        var result = new byte[preamble.Length + content.Length];
+        preamble.CopyTo(result, 0);
+        content.CopyTo(result, preamble.Length);
+        return result;
     }
 
     private static string Escape(object? value)

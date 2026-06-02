@@ -21,7 +21,9 @@ public sealed class SubmissionRequest
 
     public static async Task<SubmissionRequest> ReadAsync(Stream body, CancellationToken cancellationToken)
     {
-        var root = await JsonNode.ParseAsync(body, cancellationToken: cancellationToken);
+        using var reader = new StreamReader(body);
+        var text = await reader.ReadToEndAsync();
+        var root = JsonNode.Parse(text);
         var values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         if (root is JsonObject obj)

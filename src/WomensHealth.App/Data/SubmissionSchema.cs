@@ -2,45 +2,45 @@ namespace WomensHealth.App.Data;
 
 public static class SubmissionSchema
 {
-    public static readonly string[] Columns =
-    [
+    public static readonly string[] Columns = new[]
+    {
         "id", "submitted_at", "session_date", "client_id", "age", "contact_mode", "country",
         "language", "income_source", "visa_type", "ethnicity", "disability", "chronic_illness",
         "presenting_issues", "service_provided", "service_type", "practitioner", "group_type",
         "evaluation_tools", "staff_member", "client_status", "visit_number", "carer",
         "financial_hardship", "social_isolation", "rural_postcode", "lgbtiq", "funding_stream",
         "funding_option"
-    ];
+    };
 
-    public static readonly string[] InsertFields =
-    [
+    public static readonly string[] InsertFields = new[]
+    {
         "session_date", "client_id", "staff_member", "client_status", "visit_number",
         "age", "carer", "financial_hardship", "social_isolation", "rural_postcode", "lgbtiq",
         "funding_stream", "funding_option", "contact_mode", "country", "language",
         "income_source", "visa_type", "ethnicity", "disability", "chronic_illness",
         "presenting_issues", "service_provided", "service_type", "practitioner",
         "group_type", "evaluation_tools"
-    ];
+    };
 
-    public static readonly string[] ExactFilters = ["age", "contact_mode"];
+    public static readonly string[] ExactFilters = new[] { "age", "contact_mode" };
 
-    public static readonly string[] LikeFilters =
-    [
+    public static readonly string[] LikeFilters = new[]
+    {
         "client_id", "staff_member", "client_status", "visit_number", "carer",
         "financial_hardship", "social_isolation", "rural_postcode", "lgbtiq", "funding_stream",
         "funding_option", "country", "language", "ethnicity", "visa_type", "income_source",
         "disability", "chronic_illness", "presenting_issues", "service_provided", "service_type",
         "practitioner", "group_type", "evaluation_tools"
-    ];
+    };
 
-    public static readonly string[] SearchFields =
-    [
+    public static readonly string[] SearchFields = new[]
+    {
         "client_id", "staff_member", "client_status", "visit_number", "age", "contact_mode",
         "session_date", "carer", "financial_hardship", "social_isolation", "rural_postcode",
         "lgbtiq", "funding_stream", "funding_option", "country", "language", "ethnicity",
         "disability", "chronic_illness", "presenting_issues", "service_provided", "service_type",
         "practitioner", "evaluation_tools", "group_type", "visa_type", "income_source"
-    ];
+    };
 
     public static readonly IReadOnlyDictionary<string, string> MigrationColumns =
         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -57,7 +57,7 @@ public static class SubmissionSchema
             ["funding_option"] = "funding_option TEXT"
         };
 
-    public const string CreateTableSql = """
+    public const string CreateTableSql = @"
         CREATE TABLE IF NOT EXISTS submissions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             submitted_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
@@ -79,5 +79,5 @@ public static class SubmissionSchema
             group_type TEXT,
             evaluation_tools TEXT
         )
-        """;
+        ";
 }

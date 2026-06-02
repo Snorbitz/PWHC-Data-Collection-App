@@ -2,8 +2,8 @@ bin/
 obj/
 *.user
 
-womens-health-app-dotnet/src/WomensHealth.App/womenshealth.db
-womens-health-app-dotnet/src/WomensHealth.App/womenshealth.db-shm
-womens-health-app-dotnet/src/WomensHealth.App/womenshealth.db-wal
-womens-health-app-dotnet/src/WomensHealth.App/server.info
-womens-health-app-dotnet/src/WomensHealth.App/backups/
+src/WomensHealth.App/womenshealth.db
+src/WomensHealth.App/womenshealth.db-shm
+src/WomensHealth.App/womenshealth.db-wal
+src/WomensHealth.App/server.info
+src/WomensHealth.App/backups/

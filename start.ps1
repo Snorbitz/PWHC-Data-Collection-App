@@ -1,49 +1,37 @@
-# Women's Health App - PowerShell Launcher
-# - Finds Python automatically
+# Women's Health App - .NET PowerShell Launcher
+# - Finds dotnet automatically
 # - Frees port 8080 if already in use
-# - Waits until server is truly ready before opening browser
-# - Cleans up on Ctrl+C (and attempts cleanup on window close)
+# - Waits until the app is ready before opening the browser
+# - Cleans up on Ctrl+C
 
 $Port = 8080
 $Url = "http://127.0.0.1:$Port"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ProjectPath = Join-Path $ScriptDir "src\WomensHealth.App\WomensHealth.App.csproj"
 
 function Write-Status {
-    param([string]$msg, [string]$colour = 'Cyan')
-    Write-Host "  $msg" -ForegroundColor $colour
+    param([string]$Message, [string]$Colour = 'Cyan')
+    Write-Host "  $Message" -ForegroundColor $Colour
 }
 
 Write-Host ""
-Write-Host "  Women's Health App" -ForegroundColor Magenta
-Write-Host "  ==================" -ForegroundColor DarkMagenta
+Write-Host "  Women's Health App (.NET)" -ForegroundColor Magenta
+Write-Host "  =========================" -ForegroundColor DarkMagenta
 Write-Host ""
 
-# -- Step 1: Locate Python ----------------------------------------------------
-Write-Status "Locating Python..."
-$python = $null
-foreach ($candidate in @('python', 'python3')) {
-    try {
-        $ver = & $candidate --version 2>&1
-        if ($LASTEXITCODE -eq 0 -and ($ver -match 'Python')) {
-            $python = $candidate
-            break
-        }
-    }
-    catch {}
-}
-if (-not $python) {
-    Write-Status "ERROR: Python not found in PATH. Install Python 3 and try again." 'Red'
+Write-Status "Locating .NET..."
+$dotnet = Get-Command dotnet -ErrorAction SilentlyContinue
+if (-not $dotnet) {
+    Write-Status "ERROR: .NET was not found in PATH. Install the .NET 8 Runtime or SDK and try again." 'Red'
     Read-Host "Press Enter to exit"
     exit 1
 }
-$verStr = (& $python --version 2>&1)
-Write-Status "Found: $verStr  ($python)" 'Green'
+Write-Status "Found: $(& dotnet --version)  (dotnet)" 'Green'
 
-# -- Step 2: Free port if already in use --------------------------------------
 Write-Status "Checking port $Port..."
 $existing = Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue |
-Where-Object { $_.State -eq 'Listen' } |
-Select-Object -ExpandProperty OwningProcess -First 1
+    Where-Object { $_.State -eq 'Listen' } |
+    Select-Object -ExpandProperty OwningProcess -First 1
 if ($existing) {
     Write-Status "Port $Port in use by PID $existing - freeing..." 'Yellow'
     Stop-Process -Id $existing -Force -ErrorAction SilentlyContinue
@@ -54,86 +42,89 @@ else {
     Write-Status "Port $Port is free." 'Green'
 }
 
-# -- Step 3: Start server (as CHILD of this process so Job Object covers it) --
-Write-Status "Starting server..." 'Cyan'
+Write-Status "Starting app..." 'Cyan'
 $startArgs = @{
-    FilePath         = $python
-    ArgumentList     = 'server.py'
+    FilePath         = "dotnet"
+    ArgumentList     = @("run", "--project", $ProjectPath)
     WorkingDirectory = $ScriptDir
     PassThru         = $true
-    NoNewWindow      = $true   # same console = same Job Object
+    NoNewWindow      = $true
 }
-$script:srv = Start-Process @startArgs
-Write-Status "Server PID: $($script:srv.Id)" 'DarkCyan'
+$script:appProcess = Start-Process @startArgs
+Write-Status "App PID: $($script:appProcess.Id)" 'DarkCyan'
 
-# -- Cleanup function (called explicitly on Ctrl+C and clean exits) -----------
-function Stop-Server {
-    if ($null -ne $script:srv -and -not $script:srv.HasExited) {
+function Stop-App {
+    if ($null -ne $script:appProcess -and -not $script:appProcess.HasExited) {
         Write-Host ""
-        Write-Host "  Stopping server (PID $($script:srv.Id))..." -ForegroundColor Yellow
-        try { $script:srv.Kill() } catch {}
-        $script:srv.WaitForExit(3000)
+        Write-Host "  Stopping app (PID $($script:appProcess.Id))..." -ForegroundColor Yellow
+        try {
+            Invoke-WebRequest -Uri "$Url/api/shutdown" -UseBasicParsing -TimeoutSec 2 -ErrorAction SilentlyContinue | Out-Null
+        } catch {}
+        Start-Sleep -Seconds 2
+        if (-not $script:appProcess.HasExited) {
+            try { $script:appProcess.Kill() } catch {}
+            $script:appProcess.WaitForExit(3000)
+        }
     }
-    # Belt-and-braces: also sweep port
+
     $leftover = Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue |
-    Where-Object { $_.State -eq 'Listen' } |
-    Select-Object -ExpandProperty OwningProcess -First 1
+        Where-Object { $_.State -eq 'Listen' } |
+        Select-Object -ExpandProperty OwningProcess -First 1
     if ($leftover) {
         Stop-Process -Id $leftover -Force -ErrorAction SilentlyContinue
     }
-    Write-Host "  Server stopped. Goodbye!" -ForegroundColor DarkGray
+    Write-Host "  App stopped. Goodbye!" -ForegroundColor DarkGray
 }
 
-# Ctrl+C trap (fires reliably for keyboard interrupt)
 [Console]::TreatControlCAsInput = $false
 trap {
-    Stop-Server
+    Stop-App
     break
 }
 
-# -- Step 4: Wait for HTTP readiness (up to 10 s) -----------------------------
-Write-Status "Waiting for server to be ready..." 'Cyan'
+Write-Status "Waiting for app to be ready..." 'Cyan'
 $ready = $false
-$deadline = (Get-Date).AddSeconds(10)
+$deadline = (Get-Date).AddSeconds(20)
 while ((Get-Date) -lt $deadline) {
-    if ($script:srv.HasExited) {
-        Write-Status "ERROR: Server exited prematurely (code $($script:srv.ExitCode))." 'Red'
-        Write-Status "Check server.py and womenshealth.log for details." 'Red'
+    if ($script:appProcess.HasExited) {
+        Write-Status "ERROR: App exited prematurely (code $($script:appProcess.ExitCode))." 'Red'
         Read-Host "Press Enter to exit"
         exit 1
     }
     try {
-        $r = Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 1 -ErrorAction Stop
-        if ($r.StatusCode -lt 500) { $ready = $true; break }
+        $response = Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 1 -ErrorAction Stop
+        if ($response.StatusCode -lt 500) {
+            $ready = $true
+            break
+        }
     }
     catch {}
-    Start-Sleep -Milliseconds 200
+    Start-Sleep -Milliseconds 250
 }
+
 if (-not $ready) {
-    Write-Status "ERROR: Server did not respond within 10 s." 'Red'
-    Stop-Server
+    Write-Status "ERROR: App did not respond within 20 seconds." 'Red'
+    Stop-App
     Read-Host "Press Enter to exit"
     exit 1
 }
-Write-Status "Server is ready!" 'Green'
 
-# -- Step 5: Open browser -----------------------------------------------------
+Write-Status "App is ready!" 'Green'
 Write-Status "Opening $Url in your browser..." 'Cyan'
 Start-Process $Url
 
 Write-Host ""
 Write-Host "  App running at $Url" -ForegroundColor Green
-Write-Host "  Press Ctrl+C in this window to stop the server." -ForegroundColor DarkGray
+Write-Host "  Press Ctrl+C in this window to stop the app." -ForegroundColor DarkGray
 Write-Host ""
 
-# -- Step 6: Block here; let trap handle Ctrl+C; finally handles everything else
 try {
-    $script:srv.WaitForExit()
-    if ($script:srv.ExitCode -ne 0) {
-        Write-Status "Server stopped (exit code $($script:srv.ExitCode))." 'Yellow'
+    $script:appProcess.WaitForExit()
+    if ($script:appProcess.ExitCode -ne 0) {
+        Write-Status "App stopped (exit code $($script:appProcess.ExitCode))." 'Yellow'
         Read-Host "Press Enter to close"
     }
 }
 finally {
-    Stop-Server
+    Stop-App
 }

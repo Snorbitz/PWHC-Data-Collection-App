@@ -21,7 +21,7 @@ public sealed class CsvExportTests
 
         var bytes = service.Render(rows);
 
-        Assert.Equal([0xEF, 0xBB, 0xBF], bytes.Take(3).ToArray());
+        Assert.Equal(new byte[] { 0xEF, 0xBB, 0xBF }, bytes.Take(3).ToArray());
         var text = Encoding.UTF8.GetString(bytes);
         Assert.Contains("id,client_id,notes", text);
         Assert.Contains("\"Client, \"\"Quoted\"\"\"", text);
